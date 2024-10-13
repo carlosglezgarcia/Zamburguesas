@@ -1,2 +1,2 @@
-[!NOTE]
-Este juego está pendiente de cambios
+> [!NOTE]
+> Este juego está pendiente de cambios
