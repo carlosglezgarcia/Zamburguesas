@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humor Amarillo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #333
+        }
+
+        #contenedor {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #contenido {
+            width: min(1280px, min-content);
+            min-height: min(100vh, 720px);
+            max-height: 100vh;
+        }
+
+        #flotar {
+            position: absolute;
+            width: 100%;
+            height: min-content;
+            font-size: 48px;
+            left: 50%;
+            top: 0;
+            text-align: center;
+            text-shadow: 3px 3px 5px yellow;
+            transform: translate(-50%, 0);
+            z-index: 3;
+        }
+
+        #felicitar {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: max-content;
+            font-size: 64px;
+            left: 50%;
+            top: 0;
+            text-align: center;
+            text-shadow: 3px 3px 5px black;
+            transform: translate(-50%, 0);
+            color: yellow;
+            z-index: 6;
+
+        }
+
+        #zona {
+            position: absolute;
+            width: max-content;
+            height: min-content;
+            font-size: 36px;
+            left: calc(50% - 640px);
+            top: calc(50% - 360px);
+            text-align: center;
+            text-shadow: 2px 2px 3px black;
+            z-index: 3;
+            color: #FF00FF;
+        }
+
+        #prueba {
+            position: relative;
+            width: 1280px;
+            object-fit: contain;
+            z-index: 2;
+        }
+
+        #jv {
+            position: absolute;
+            left: calc(50% - 450px);
+            top: calc(50% + 100px);
+            transform: translate(-40px, -90px);
+            z-index: 4;
+        }
+
+        #fondo_inicio {
+            @starting-style {
+                -webkit-backdrop-filter: none;
+                backdrop-filter: none;
+            }
+
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            transition: backdrop-filter 1s;
+            z-index: 5;
+        }
+
+        #fondo {
+            @starting-style {
+                -webkit-backdrop-filter: none;
+                backdrop-filter: none;
+            }
+
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            transition: backdrop-filter 1s;
+            z-index: 5;
+        }
+
+        #volver,
+        #inicio {
+            @starting-style {
+                opacity: 0;
+            }
+
+            position: absolute;
+            padding: 20px 60px;
+            left: 50%;
+            top: 50%;
+            font-size: 24px;
+            text-shadow: 2px 2px 3px black;
+            transform: translate(-50%, -50%);
+            border-radius: 15px;
+            border: 2px solid yellow;
+            color: yellow;
+            background-color: #0666FF;
+            opacity: 1;
+            transition: opacity 3s;
+            cursor: pointer;
+            z-index: 6;
+        }
+
+        @media (width <1280px) or (height <720px) {
+            #contenido {
+                width: min-content;
+                max-height: 100vh;
+            }
+
+            #prueba {
+                width: min(100%, min-content);
+                max-height: 100vh;
+            }
+
+            #jv,
+            #zona,
+            #flotar,
+            #inicio,
+            #volver,
+            #fondo,
+            #fondo_inicio,
+            #felicitar {
+                display: none;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <main id="contenedor">
+        <div id="contenido">
+            <p id="flotar">Zamburguesas</p>
+            <p id="zona">Nivel 1</p>
+            <img id="jv" src="jugador_vivo.png" width="80" height="90"
+                alt="Jugador Vivo">
+            <div id="fondo_inicio">
+                <input id="inicio" type="submit" onclick="iniciar()"
+                    value="Inicio">
+            </div>
+            <div id="fondo">
+                <p id="felicitar"><i>Felicidades piltrafilla<br> ¡¡¡HAS
+                        GANADO!!!</i></p>
+                <input id="volver" type="submit" onclick="reintentar()"
+                    value="Reintentar">
+            </div>
+            <picture>
+                <source media="(width < 1280px)"
+                    srcset="zamburguesas_vertical.jpg">
+                <source media="(height < 720px)"
+                    srcset="zamburguesas_vertical.jpg">
+                <img id="prueba" usemap="#piedras" src="zamburguesas.jpg">
+                <map name="piedras">
+                    <!-- Dos primeras plataformas -->
+                    <area shape="circle" coords="376, 330, 30"
+                        onclick="mover(376, 330, 1)" href="#" alt="piedra">
+                    <area shape="circle" coords="416, 417, 30"
+                        onclick="mover(416, 417, 1)" href="#" alt="piedra">
+                    <!-- Tres segundas plataformas -->
+                    <area shape="circle" coords="440, 255, 30"
+                        onclick="mover(440, 255, 2)" href="#" alt="piedra">
+                    <area shape="circle" coords="459, 350, 30"
+                        onclick="mover(459, 350, 2)" href="#" alt="piedra">
+                    <area shape="circle" coords="496, 433, 30"
+                        onclick="mover(496, 433, 2)" href="#" alt="piedra">
+                    <!-- Dos terceras plataformas -->
+                    <area shape="circle" coords="534, 300, 30"
+                        onclick="mover(534, 300, 3)" href="#" alt="piedra">
+                    <area shape="circle" coords="565, 384, 30"
+                        onclick="mover(565, 384, 3)" href="#" alt="piedra">
+                    <!-- Tres cuartas plataformas -->
+                    <area shape="circle" coords="585, 235, 30"
+                        onclick="mover(585, 235, 4)" href="#" alt="piedra">
+                    <area shape="circle" coords="617, 327, 30"
+                        onclick="mover(617, 327, 4)" href="#" alt="piedra">
+                    <area shape="circle" coords="647, 413, 30"
+                        onclick="mover(647, 413, 4)" href="#" alt="piedra">
+                    <!-- Dos quintas plataformas -->
+                    <area shape="circle" coords="663, 261, 30"
+                        onclick="mover(663, 261, 5)" href="#" alt="piedra">
+                    <area shape="circle" coords="698, 361, 30"
+                        onclick="mover(698, 361, 5)" href="#" alt="piedra">
+                    <!-- Tres sextas plataformas -->
+                    <area shape="circle" coords="719, 204, 30"
+                        onclick="mover(719, 204, 6)" href="#" alt="piedra">
+                    <area shape="circle" coords="745, 299, 30"
+                        onclick="mover(745, 299, 6)" href="#" alt="piedra">
+                    <area shape="circle" coords="778, 383, 30"
+                        onclick="mover(778, 383, 6)" href="#" alt="piedra">
+                    <!-- Última plataforma -->
+                    <area shape="circle" coords="828, 320, 30"
+                        onclick="mover(828, 320, 7)" href="#" alt="piedra">
+                </map>
+            </picture>
+        </div>
+    </main>
+    <script>
+        let cargador = 1;
+        let vida = true;
+        let dato = 1;
+        let dificultad = 10;
+        // Cambia las coordenadas del moñeco.
+        function saltar(iz, al) {
+            jv.style.left = `calc(50% - ${640 - iz}px)`;
+            jv.style.top = `calc(50% - ${360 - al}px)`;
+        }
+        // Cambia el estado del moñeco
+        function matar() {
+            jv.setAttribute("src", "jugador_muerto.png");
+            fondo.style.display = "block";
+        }
+        // Valores de inicio
+        function resetear() {
+            jv.style.left = `calc(50% - 450px)`;
+            jv.style.top = `calc(50% + 100px)`;
+            jv.setAttribute("src", "jugador_vivo.png");
+            vida = true;
+            cargador = 1;
+        }
+        function iniciar() {
+            resetear();
+            fondo_inicio.style.display = "none";
+        }
+        // Solo se activa cuando mueres y resetea todo.
+        function reintentar() {
+            resetear();
+            fondo.style.display = "none";
+        }
+        // Función general del juego.
+        function mover(x, y, nivel) {
+            let trampa = Math.floor(Math.random() * dificultad)
+            vida = (trampa != 1) ? true : false;
+            if (cargador < 8) {
+                if ((cargador == nivel) && vida) {
+                    saltar(x, y);
+                    cargador++;
+                    // Caso en el que el moñeco salte zonas o vuelva atrás.
+                } else if (((cargador + 1 == nivel) || (cargador - 2 == nivel)) && vida) {
+                    saltar(x, y);
+                    matar()
+                    vida = false;
+                    // Para el caso en el que el personaje vaya a morir.
+                } else if (cargador == nivel && !vida) {
+                    saltar(x, y);
+                    matar()
+                    cargador = 0;
+                }
+            }
+            // Cada vez que se llegue al final de la zona
+            if (cargador == 8 && dato < 8) {
+                saltar(x, y)
+                dato++
+                zona.innerHTML = `Nivel ${dato}`
+                setTimeout(() => { resetear() }, 500)
+                dificultad--;
+            } else if (cargador == 8 && dato == 8) {
+                saltar(x, y)
+                setTimeout(() => { saltar(1068, 320) }, 250)
+                setTimeout(() => {
+                    fondo.style.display = "block";
+                    felicitar.style.display = "block";
+                    volver.value = "Volver a jugar";
+                }, 500)
+                dificultad = 10;
+                dato = 1;
+                zona.innerHTML = `Nivel ${dato}`
+            }
+        }
+    </script>
+</body>
+
+</html>
